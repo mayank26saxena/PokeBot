@@ -27,6 +27,8 @@ class Skiplagged():
     _access_token = None
     _auth_provider = None
 
+    _number_of_pokemons_found = 0
+
     def __init__(self):
         self._requests_skiplagged_session = get_requests_session('pokemongo-python')
         self._requests_niantic_session = get_requests_session('Niantic App')
@@ -149,35 +151,49 @@ class Skiplagged():
     # Generates a realistic path to traverse the bounds and find spawned pokemon
     # Processed sequentially and with delay to minimize chance of getting account banned
     def find_pokemon(self, bounds, step_size=0.002):
-        print getMyTime(), "called find_pokemon" 
-        if not self.PROFILE_RAW: self.get_profile()
-        
-        bounds = '%f,%f,%f,%f' % (bounds[0] + bounds[1])
-                
-        response = self._call(self.SKIPLAGGED_API, {
-                                                    'access_token': self.get_access_token(), 
-                                                    'auth_provider': self.get_auth_provider(),
-                                                    'profile': self.PROFILE_RAW,
-                                                    'bounds': bounds,
-                                                    'step_size': step_size
-                                                    })
-        if not 'requests' in response: raise Exception('failed to get requests')
-                        
-        for request in response['requests']:
-            print getMyTime(), "moving player"
-            pokemon_data = self._call(self.SPECIFIC_API, request['pdata'])
-            response = self._call(self.SKIPLAGGED_API, {'pdata': pokemon_data})
-            
-            num_pokemon_found = 0 #len(response['pokemons'])
-            if num_pokemon_found > 0: print getMyTime(), "found %d pokemon" % (num_pokemon_found)
-            for pokemon in response['pokemons']:
-                num_pokemon_found += 1
-                if num_pokemon_found > 5:
-                    break
-                yield Pokemon(pokemon)
 
+        if self._number_of_pokemons_found > 5 :
+            return
+        else:
+            print getMyTime(), "called find_pokemon"
+            if not self.PROFILE_RAW: self.get_profile()
 
-            time.sleep(.5)
+            bounds = '%f,%f,%f,%f' % (bounds[0] + bounds[1])
+
+            response = self._call(self.SKIPLAGGED_API, {
+                                                        'access_token': self.get_access_token(),
+                                                        'auth_provider': self.get_auth_provider(),
+                                                        'profile': self.PROFILE_RAW,
+                                                        'bounds': bounds,
+                                                        'step_size': step_size
+                                                        })
+            if not 'requests' in response: raise Exception('failed to get requests')
+
+            for request in response['requests']:
+                print getMyTime(), "moving player"
+                pokemon_data = self._call(self.SPECIFIC_API, request['pdata'])
+                response = self._call(self.SKIPLAGGED_API, {'pdata': pokemon_data})
+
+                '''
+                num_pokemon_found = 0 #len(response['pokemons'])
+                if num_pokemon_found > 0: print getMyTime(), "found %d pokemon" % (num_pokemon_found)
+                for pokemon in response['pokemons']:
+                    num_pokemon_found += 1
+                    if num_pokemon_found > 5:
+                        break
+                    yield Pokemon(pokemon)
+
+                '''
+
+                #self._number_of_pokemons_found = 0
+                if self._number_of_pokemons_found >= 0 : print getMyTime(), "found %d pokemon" % (self._number_of_pokemons_found)
+                for pokemon in response['pokemons']:
+                    self._number_of_pokemons_found += 1
+                    if self._number_of_pokemons_found > 5 :
+                        break
+                    yield Pokemon(pokemon)
+
+                time.sleep(.5)
 
     def get_bounds_for_address(self, address, offset=0.002):
         url = 'https://maps.googleapis.com/maps/api/geocode/json'
