@@ -10,6 +10,8 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
+i = 0
+
 @app.route('/', methods=['GET'])
 def verify():
     # when the endpoint is registered as a webhook, it must
@@ -120,7 +122,6 @@ def login(address, sender_id):
             address_message = "Pokemons near " + str(address) + " are - "
             send_message(sender_id, str(address_message))
 
-            i = 0
             for pokemon in client.find_pokemon(bounds):
                 #send_message(sender_id, str(pokemon))
                 s = str(pokemon)
@@ -131,8 +132,9 @@ def login(address, sender_id):
                 s2 = s[index_of_comma:]
                 s3 = s1+s2
                 send_message(sender_id, s3)
-                i = i+1
-                if (i == 5) :
+                global i
+                i += 1
+                if i == 5 :
                     return
 
         except Exception as e:
