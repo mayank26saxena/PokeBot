@@ -10,7 +10,8 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-i = 0
+address_message_sent = 0
+pokemons_message_count = 5
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -119,10 +120,16 @@ def login(address, sender_id):
             print client.get_specific_api_endpoint()
             print client.get_profile()
 
-            address_message = "Pokemons near " + str(address) + " are - "
-            send_message(sender_id, str(address_message))
+            global address_message_sent
+            if address_message_sent == 0 :
+                address_message = "Pokemons near " + str(address) + " are - "
+                send_message(sender_id, str(address_message))
+                address_message_sent = 1
 
-            for pokemon in client.find_pokemon(bounds):
+            i = 0
+
+            global pokemons_message_count
+            for pokemon in client.find_pokemon(bounds) and pokemons_message_count:
                 #send_message(sender_id, str(pokemon))
                 s = str(pokemon)
                 index_of_colon = s.index(":")
@@ -132,9 +139,13 @@ def login(address, sender_id):
                 s2 = s[index_of_comma:]
                 s3 = s1+s2
                 send_message(sender_id, s3)
-                global i
+                pokemons_message_count -= 1
+                log("Value of i = " + str(i))
                 i += 1
-                if i == 5 :
+                if i > 5:
+                    log("Value of i greater than 5, so we are going to exit now")
+                    sys.exit(0)
+                    break
                     return
 
         except Exception as e:
@@ -154,7 +165,7 @@ def send_message(recipient_id, message_text):
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
     headers = {
-        "Content-Type": "application/json"
+           "Content-Type": "application/json"
     }
     data = json.dumps({
         "recipient": {
