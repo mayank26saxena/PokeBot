@@ -73,7 +73,7 @@ def webook():
                             log(str(address))
 
                             if ( b == False):
-                               # address_message = "Pokemons near " + str(address) + " are - "
+                               # address_message = "Pokemons near "  str(address)  " are - "
                                # send_message(sender_id, str(address_message))
                                 b = True
 
@@ -94,64 +94,56 @@ def webook():
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     pass
 
+                send_message(sender_id, "Some error occurred, please try again in sometime.")
                 pass
 
     return "ok", 200
 
 def login(address, sender_id):
-    while 1:
-        try:
-            client = Skiplagged()
-            bounds = client.get_bounds_for_address(address)
-
-            usernames = ["prattylolo2", "prattylolo3", "prattylolo4", "prattylolo5", "prattylolo6"]
-            passwords = ["prattylolo2", "prattylolo3", "prattylolo4", "prattylolo5", "prattylolo6"]
-
-            n = randint(0, 4)
-
-            username = usernames[n]
-            password = passwords[n]
-
-            log("username = " + str(username))
-            log("password = " + str(password))
-
-
-            print client.login_with_pokemon_trainer(username, password)
-            print client.get_specific_api_endpoint()
-            print client.get_profile()
-
-            global address_message_sent
-            if address_message_sent == 0 :
-                address_message = "Pokemons near " + str(address) + " are - "
-                send_message(sender_id, str(address_message))
-                address_message_sent = 1
-
-            i = 0
-
-            global pokemons_message_count
-            for pokemon in client.find_pokemon(bounds) and pokemons_message_count:
-                #send_message(sender_id, str(pokemon))
-                s = str(pokemon)
-                index_of_colon = s.index(":")
-                list_of_commas = find(s, ",")
-                index_of_comma = list_of_commas[-1]
-                s1 = s[:index_of_colon]
-                s2 = s[index_of_comma:]
-                s3 = s1+s2
-                send_message(sender_id, s3)
-                pokemons_message_count -= 1
-                log("Value of i = " + str(i))
-                i += 1
-                if i > 5:
-                    log("Value of i greater than 5, so we are going to exit now")
-                    sys.exit(0)
-                    break
-                    return
-
-        except Exception as e:
-            log("Exception: {0} {1}".format(e.message, e.args))
-            time.sleep(1)
-
+     while 1:
+         try:
+             client = Skiplagged()
+             bounds = client.get_bounds_for_address(address)
+ 
+             usernames = ["prattylolo2", "prattylolo3", "prattylolo4", "prattylolo5", "prattylolo6"]
+             passwords = ["prattylolo2", "prattylolo3", "prattylolo4", "prattylolo5", "prattylolo6"]
+ 
+             n = randint(0, 4)
+ 
+             username = usernames[n]
+             password = passwords[n]
+ 
+             log("username = "  + str(username))
+             log("password = "  + str(password))
+ 
+ 
+             print client.login_with_pokemon_trainer(username, password)
+             print client.get_specific_api_endpoint()
+             print client.get_profile()
+ 
+             address_message = "Pokemons near " + str(address) +  " are - "
+             send_message(sender_id, str(address_message))
+ 
+             i = 0
+             for pokemon in client.find_pokemon(bounds):
+                 #send_message(sender_id, str(pokemon))
+                 s = str(pokemon)
+                 index_of_colon = s.index(":")
+                 list_of_commas = find(s, ",")
+                 index_of_comma = list_of_commas[-1]
+                 s1 = s[:index_of_colon]
+                 s2 = s[index_of_comma:]
+                 s3 = s1+s2
+                 send_message(sender_id, s3)
+                 i += 1
+                 if (i == 5) :
+                     return
+ 
+         except Exception as e:
+             log("Exception: {0} {1}".format(e.message, e.args))
+             time.sleep(1)
+ 
+ 
 
 def find(s, ch):
     return [i for i, ltr in enumerate(s) if ltr == ch]
