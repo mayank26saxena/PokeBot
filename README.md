@@ -11,7 +11,7 @@ PokeBot is a facebook messenger bot which will help you find nearby pokemons in 
 ![alt tag](https://github.com/mayank26saxena/PokeBot/blob/master/screenshots/screenshot1.png)
 
 # Demo Video
-[![alt tag](https://github.com/mayank26saxena/PokeBot/blob/master/screenshots/screenshot3.png)](https://youtu.be/eShsuOf21Yo)
+[![alt tag](https://github.com/mayank26saxena/PokeBot/blob/master/screenshots/screenshot4.png)](https://youtu.be/eShsuOf21Yo)
 
 # License
 
