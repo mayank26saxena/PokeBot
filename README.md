@@ -8,6 +8,10 @@ Unfortunately, due to [third-party Pokémon Go tracking services shutting down](
 - Select PokeBot and ping. 
 - Send your location to find nearby pokemons.
 
+# Messenger Code
+<p align="center">
+  <img src="https://github.com/mayank26saxena/PokeBot/blob/master/screenshots/messenger_code.png" alt="Pokebot's messenger code."/>
+</p>
 # Screenshots
 ![alt tag](https://github.com/mayank26saxena/PokeBot/blob/master/screenshots/screenshot2.png)
 ![alt tag](https://github.com/mayank26saxena/PokeBot/blob/master/screenshots/screenshot1.png)
