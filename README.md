@@ -15,6 +15,10 @@ Unfortunately, due to [third-party Pokémon Go tracking services shutting down](
 # Demo Video
 [![alt tag](https://github.com/mayank26saxena/PokeBot/blob/master/screenshots/screenshot4.png)](https://youtu.be/eShsuOf21Yo)
 
+# Deploy
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 # License
 
 >(c) 2016 Mayank Saxena 
