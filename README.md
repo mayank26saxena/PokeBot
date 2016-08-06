@@ -4,7 +4,7 @@ PokeBot is a facebook messenger bot which will help you find nearby pokemons in 
 Unfortunately, due to [third-party Pokémon Go tracking services shutting down](https://techcrunch.com/2016/08/01/third-party-pokemon-go-tracking-services-get-shut-down/), PokeBot is also unable to fetch the correct data anymore.  
 
 # How to Use
-- Visit [m.me/pgobotms](https://www.messenger.com/t/pgobotms/) or search for <code>pgobotms</code> in Facebook Messenger.
+- Visit [m.me/pgobotms](https://www.messenger.com/t/pgobotms/) or search for <code>pgobotms</code> in Facebook Messenger or scan the messenger code below.
 - Select PokeBot and ping. 
 - Send your location to find nearby pokemons.
 
